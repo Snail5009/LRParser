@@ -14,6 +14,7 @@ public class Grammar {
         StringBuilder productionsStrings = new StringBuilder();
         productions.forEach((p) -> {
             productionsStrings.append(p.toString());
+            productionsStrings.append("\n");
         });
         return productionsStrings.toString();
     }
