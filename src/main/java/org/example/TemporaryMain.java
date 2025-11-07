@@ -17,9 +17,12 @@ public class TemporaryMain {
 
         System.out.printf("Grammarrrrr:\n%s\n", grammar);
 
-        ParseTerminal[] expression = new ParseTerminal[] {
-            integer, plus, integer, plus, integer
-        };
+        ParseString string = new ParseString();
+        string.add(integer);
+        string.add(plus);
+        string.add(integer);
+
+        System.out.printf("Stringggg:\n%s\n", string);
         
         
     }

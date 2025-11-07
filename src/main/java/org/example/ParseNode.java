@@ -14,4 +14,9 @@ public abstract class ParseNode {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return type;
+    }
 }
