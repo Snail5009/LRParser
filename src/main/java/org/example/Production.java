@@ -21,4 +21,12 @@ public class Production {
         }
         return string.toString();
     }
+
+    public ParseNode getFrom() {
+        return from;
+    }
+
+    public ParseNode[] getTo() {
+        return to;
+    }
 }

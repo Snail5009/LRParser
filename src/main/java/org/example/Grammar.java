@@ -26,4 +26,8 @@ public class Grammar {
     public void addProduction(ParseNonterminal from, ParseNode to) {
         addProduction(from, new ParseNode[]{ to });
     }
+
+    public ArrayList<Production> getProductions() {
+        return productions;
+    }
 }

@@ -19,4 +19,10 @@ public abstract class ParseNode {
     public String toString() {
         return type;
     }
+
+    public boolean equalsType(Object rhs) {
+        if (!(rhs instanceof ParseNode)) return false;
+        if (((ParseNode)rhs).type.equals(type)) return true;
+        return false;
+    }
 }
