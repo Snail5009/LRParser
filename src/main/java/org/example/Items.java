@@ -9,6 +9,10 @@ public class Items {
         
     }
 
+    public Items(ArrayList<IndexedProduction> productions) {
+        this.productions = productions;
+    }
+
     public void addProduction(IndexedProduction production) {
         productions.add(production.clone());
     }

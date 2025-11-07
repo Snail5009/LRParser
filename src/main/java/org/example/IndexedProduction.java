@@ -1,8 +1,5 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class IndexedProduction extends Production {
     private int index;
     public IndexedProduction(ParseNonterminal from,

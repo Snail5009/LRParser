@@ -37,4 +37,26 @@ public class ItemsList {
     public int size() {
         return itemSets.size();
     }
+
+    public ArrayList<Items> getList() {
+        return itemSets;
+    }
+
+    public void deleteUnusedItemSets() {
+        itemSets.removeIf((i) -> {
+            return i.getProductions().size() == 0;
+        });
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < itemSets.size(); i++) {
+            result.append("I_");
+            result.append(i);
+            result.append(":\n");
+            result.append(itemSets.get(i).toString());
+        }
+        return result.toString();
+    }
 }

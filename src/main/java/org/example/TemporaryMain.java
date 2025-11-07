@@ -1,23 +1,47 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class TemporaryMain {
 
+    public static ArrayList<IndexedProduction> addReductions(Items itemSet, Items i0) {
+        ArrayList<IndexedProduction> toAdd = new ArrayList<>();
+        for (IndexedProduction p : itemSet.getProductions()) {
+            if (!p.hasIndexed()) continue;
+            if (p.getNext() instanceof ParseNonterminal) {
+                for (IndexedProduction i0Production
+                    : i0.getProductions()) {
+                    if (i0Production.getFrom().equalsType(p.getNext())) {
+                        if (!toAdd.contains(i0Production) && !itemSet.getProductions().contains(i0Production)) {
+                            toAdd.add(i0Production);
+                        }
+                    }
+                }
+            }
+        }
+        if (toAdd.size() > 0) toAdd.addAll(addReductions(new Items(toAdd), i0));
+        return toAdd;
+    }
+
     public static void main(String[] args) {
         ParseNonterminal S = new ParseNonterminal("S");
         ParseNonterminal E = new ParseNonterminal("E");
-        ParseNonterminal V = new ParseNonterminal("V");
+        ParseNonterminal B = new ParseNonterminal("B");
 
         ParseTerminal plus = new ParseTerminal("+");
-        ParseTerminal integer = new ParseTerminal("integer");
+        ParseTerminal times = new ParseTerminal("*");
+        ParseTerminal zero = new ParseTerminal("0");
+        ParseTerminal one = new ParseTerminal("1");
         ParseTerminal eof = new ParseTerminal("$");
 
         Grammar grammar = new Grammar();
         grammar.addProduction(S, new ParseNode[] { E, eof });
-        grammar.addProduction(E, new ParseNode[] { E, plus, V });
-        grammar.addProduction(E, V);
-        grammar.addProduction(V, integer);
+        grammar.addProduction(E, new ParseNode[] { E, plus, B });
+        grammar.addProduction(E, new ParseNode[] { E, times, B });
+        grammar.addProduction(E, B);
+        grammar.addProduction(B, zero);
+        grammar.addProduction(B, one);
 
         System.out.printf("Grammarrrrr:\n%s\n", grammar);
 
@@ -32,7 +56,7 @@ public class TemporaryMain {
         for (Production p : grammar.getProductions()) {
             itemSets.get(n).addProduction(new IndexedProduction(p, 0));
         }
-        System.out.printf("I_%d:\n%s\n", n, itemSets.get(n));
+        itemSets.add(new Items());
 
         while (true) {
 
@@ -44,7 +68,10 @@ public class TemporaryMain {
             for (IndexedProduction p : itemSets.get(n).getProductions()) {
                 if (!p.hasIndexed()) continue;
 
-                /// slight alteration, but I don't need to keep going if it's
+                /// slight alteration to the pdf
+                /// (which is also inaccurate but oh well
+                /// I'm not gonna redo it right now),
+                /// but I don't need to keep going if it's
                 /// a $ ////
                 if (p.getNext().type == "$") continue;
 
@@ -53,7 +80,7 @@ public class TemporaryMain {
                 }
             }
 
-            // (4)
+            // (4) shifing
             for (ParseNode pn : A) {
                 boolean existsItemSet = false;
                 for (IndexedProduction p : itemSets.get(n).getProductions()) {
@@ -66,23 +93,32 @@ public class TemporaryMain {
                         IndexedProduction newItem = p.clone();
                         newItem.advance();
                         if (!itemSets.isUnique(newItem)) {
-                            System.out.printf("NOOOOO NOT UNIQUE (%s would " +
-                            "be added but it is not unique)\n", newItem);
                             continue;
                         }
                         itemSets.getLast().addProduction(newItem);
                     }
                 }
-                System.out.printf("I_%d:\n%s\n", itemSets.size() - 1, itemSets.getLast());
+                
+                // (5) reducing
+
+                for (IndexedProduction p : addReductions(itemSets.getLast(), itemSets.get(0))) {
+                    itemSets.getLast().addProduction(p);
+                }
+
             }
+            
             n++;
         }
 
+        itemSets.deleteUnusedItemSets();
+
+        System.out.println(itemSets);
+
 
         ParseString string = new ParseString();
-        string.add(integer);
+        string.add(one);
         string.add(plus);
-        string.add(integer);
+        string.add(one);
 
         System.out.printf("Stringggg:\n%s\n", string);
         
