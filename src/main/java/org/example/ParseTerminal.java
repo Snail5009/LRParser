@@ -19,4 +19,9 @@ public class ParseTerminal extends ParseNode {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public ParseTerminal clone() {
+        return new ParseTerminal(type);
+    }
 }

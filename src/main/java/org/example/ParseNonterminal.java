@@ -4,4 +4,9 @@ public class ParseNonterminal extends ParseNode {
     public ParseNonterminal(String type) {
         super(type);
     }
+
+    @Override
+    public ParseNonterminal clone() {
+        return new ParseNonterminal(type);
+    }
 }

@@ -1,8 +1,8 @@
 package org.example;
 
 public class Production {
-    private ParseNode from;
-    private ParseNode[] to;
+    protected ParseNode from;
+    protected ParseNode[] to;
 
     public Production(ParseNonterminal from, ParseNode[] to) {
         this.from = from;

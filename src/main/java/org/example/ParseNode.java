@@ -1,7 +1,7 @@
 package org.example;
 
 public abstract class ParseNode {
-    private String type;
+    protected String type;
 
     public ParseNode(String type)
         throws IllegalArgumentException {
@@ -19,6 +19,8 @@ public abstract class ParseNode {
     public String toString() {
         return type;
     }
+
+    abstract public ParseNode clone();
 
     public boolean equalsType(Object rhs) {
         if (!(rhs instanceof ParseNode)) return false;
