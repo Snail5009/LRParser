@@ -27,4 +27,9 @@ public abstract class ParseNode {
         if (((ParseNode)rhs).type.equals(type)) return true;
         return false;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return equalsType(obj);
+    }
 }
