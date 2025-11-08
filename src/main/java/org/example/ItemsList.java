@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ItemsList {
     private ArrayList<Items> itemSets;
@@ -46,6 +47,38 @@ public class ItemsList {
         itemSets.removeIf((i) -> {
             return i.getProductions().size() == 0;
         });
+    }
+
+    public HashSet<ParseTerminal> getTerminals() {
+        HashSet<ParseTerminal> terminals = new HashSet<>();
+        for (Items i : itemSets) {
+            for (IndexedProduction j : i.getProductions()) {
+                for (ParseNode k : j.to) {
+                    if (k instanceof ParseTerminal) {
+                        if (!terminals.contains(k)) {
+                            terminals.add(ParseTerminal.class.cast(k));
+                        }
+                    }
+                }
+            }
+        }
+        return terminals;
+    }
+
+    public HashSet<ParseNonterminal> getNonterminals() {
+        HashSet<ParseNonterminal> nonterminals = new HashSet<>();
+        for (Items i : itemSets) {
+            for (IndexedProduction j : i.getProductions()) {
+                for (ParseNode k : j.to) {
+                    if (k instanceof ParseNonterminal) {
+                        if (!nonterminals.contains(k)) {
+                            nonterminals.add(ParseNonterminal.class.cast(k));
+                        }
+                    }
+                }
+            }
+        }
+        return nonterminals;
     }
 
     @Override

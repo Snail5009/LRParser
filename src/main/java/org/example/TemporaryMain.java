@@ -1,7 +1,6 @@
 package org.example;
 
 public class TemporaryMain {
-
     public static void main(String[] args) {
         ParseNonterminal S = new ParseNonterminal("S");
         ParseNonterminal E = new ParseNonterminal("E");
@@ -22,11 +21,12 @@ public class TemporaryMain {
         grammar.addProduction(B, one);
 
         System.out.printf("Grammarrrrr:\n%s\n", grammar);
-
-
+        
         ItemsList itemSets = grammar.generateItemSets();
+        System.out.printf("Item setsssss:\n%s\n", itemSets);
 
-        System.out.println(itemSets);
+        GotoActionTable table = new GotoActionTable(itemSets);
+        System.out.printf("Tableeee:\n%s\n", table);
 
         ParseString string = new ParseString();
         string.add(one);
@@ -34,6 +34,5 @@ public class TemporaryMain {
         string.add(one);
 
         System.out.printf("Stringggg:\n%s\n", string);
-        
     }
 }
